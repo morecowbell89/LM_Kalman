@@ -11,7 +11,7 @@ sigma_nu = 0.1;
 K = [0.05; 0.03]; % low
 
 cnt = 1;
-x_hat_pri = [0.1 0.9]';
+x_hat_pri = [0.1 0.9]'; 
 x(:,cnt) = [0 1]';
 y(:,cnt) = H*x(:,cnt) + sigma_nu*randn;
 x_hat_post(:,cnt) = x_hat_pri + K*(y(:,cnt)-H*x_hat_pri);
