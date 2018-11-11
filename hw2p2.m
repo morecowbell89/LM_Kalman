@@ -69,7 +69,7 @@ for k = 1:length(time)
     omega(k) = omega_in; 
     omega(k+1) = omega_in; 
     
-    % propogate truth states
+    % propogate truth states Theta and Beta, x(1) = theta, x(2) = beta
     x(:,k+1) = Phi*x(:,k) + Lambda*omega(k+1) + Gamma*randn;
     % calculate K gain
     K(:,k) = P_prior(:,:,k)*H_kf'*inv(H_kf*P_prior(:,:,k)*H_kf' + R);
