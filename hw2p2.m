@@ -25,8 +25,8 @@ H = [1 0];
 
 % kalman filter parameter
 Q = [(sigma_nu^2*dt + (1/3)*sigma_u^2*dt^3) -0.5*sigma_u^2*dt; -0.5*sigma_u^2*dt sigma_u^2*dt]; 
-Gamma_kf = eye(2);
-R = 1e-5;
+Gamma_kf = [dt 0; 0 0];
+R = sigma_S^2;
 Phi_kf = [1 -dt; 0 1]; 
 H_kf = H; % ditto ^
 
