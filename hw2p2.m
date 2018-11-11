@@ -3,7 +3,7 @@
 % 2018-11-10
 % Implement Kalman Filter for Gyro
 
-%% 
+%% Setting Parameters/Allocating vectors
 clear all;
 close all;
 
@@ -49,7 +49,7 @@ one_sigma_theta = zeros(1,length(time));
 one_sigma_beta = zeros(1,length(time));
 K = zeros(2,length(time));
 
-%% Propogate
+%% Run Simulation
 for k = 1:length(time)
     if k == 1 
         % Initialize states
@@ -81,8 +81,8 @@ for k = 1:length(time)
         0.5*(x(2,k+1)+x(2,k)) +...
         randn*sqrt(sigma_nu^2/dt + (sigma_u^2*dt)/12);
     
-    % After measurment steps
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % After measurment update state and covariance with residual
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % calculate K gain
     K(:,k) = P_prior(:,:,k)*H_kf'*inv(H_kf*P_prior(:,:,k)*H_kf' + R);
     % calculate residual from measurment and estimate of state prior to
@@ -92,7 +92,11 @@ for k = 1:length(time)
     x_hat_post(:,k) = x_hat_prior(:,k) + K(:,k)*e_meas(:,k);
     % update covariance posteriori
     P_post(:,:,k) = (eye(2) - K(:,k)*H_kf)*P_prior(:,:,k);    
-    e_states(:,k) = x(:,k) - x_hat_post(:,k); % record for plotting    
+    e_states(:,k) = x(:,k) - x_hat_post(:,k); % record for plotting  
+    
+    % Propagate state and covariance to next time step (k+1)
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     % Propogate estimated state and covariance forward time step
     % propogate estimates forward in time
     x_hat_prior(:,k+1) = Phi_kf*x_hat_post(:,k) + Lambda*omega_meas;
