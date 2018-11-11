@@ -163,3 +163,20 @@ plot(time,x_hat_post(2,:),'r');
 legend({'\beta True','\beta Estimate'});
 ylabel('\beta (rad/s)')
 linkaxes([ax1,ax2],'x')
+
+%% Bonus: Compare Sim Covariance to Analytical
+P_the_bet = -sigma_u*sigma_S*sqrt(dt);
+P_the_the = sigma_S*sqrt((sigma_nu^2-2*P_the_bet)*dt);
+P_bet_bet = sigma_u*sqrt(sigma_nu^2-2*P_the_bet);
+P_an = [P_the_the P_the_bet;
+        P_the_bet P_bet_bet];
+P_est_ss = P_post(:,:,end);
+
+disp(P_an - P_est_ss); % Results agree to ~1e-11
+%{
+   1.0e-11 *
+
+    0.1436   -0.0001
+   -0.0001    0.0000
+%}
+
