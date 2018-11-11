@@ -15,9 +15,9 @@ time = t_start:dt:t_end;
 
 % truth parameters
 sigma_nu = 3e-7; % Angle random walk (rad/sec^0.5)
-sigma_u = 3e-10; % rate random walk
-sigma_S = 17e-6;
-omega_in = 1e-7;
+sigma_u = 3e-10; % rate random walk (rad/sec^(3/2))
+sigma_S = 17e-6; % noise on measured angle
+omega_in = 1e-7; % constant rate truth (rad/sec)
 Phi = [1 0; 0 1]; % calculate state transition model; states are [theta beta]
 Lambda = [dt 0]'; % used for inputing omega*dt into theta
 Gamma = [0 sigma_u*sqrt(dt)]';
@@ -47,7 +47,7 @@ for k = 1:length(time)
     
     % take in measurment
     y(:,k) = H*x(:,k) + sigma_S*randn; % theta
-    omega_meas = omega(k+1) + 0.5*(x(2,k+1)-x(2,k)) + randn*sqrt(sigma_nu^2/dt + (sigma_u^2*dt)/12);
+    omega_meas = omega(k+1) + 0.5*(x(2,k+1)+x(2,k)) + randn*sqrt(sigma_nu^2/dt + (sigma_u^2*dt)/12);
     % update state and covariance
     e_meas(:,k) = y(:,k) - H_kf*x_hat_prior(:,k);
     x_hat_post(:,k) = x_hat_prior(:,k) + K(:,k)*e_meas(:,k);
