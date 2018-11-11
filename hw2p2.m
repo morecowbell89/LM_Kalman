@@ -71,8 +71,6 @@ for k = 1:length(time)
     
     % propogate truth states Theta and Beta, x(1) = theta, x(2) = beta
     x(:,k+1) = Phi*x(:,k) + Lambda*omega(k+1) + Gamma*randn;
-    % calculate K gain
-    K(:,k) = P_prior(:,:,k)*H_kf'*inv(H_kf*P_prior(:,:,k)*H_kf' + R);
     
     % Take in measurments
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,6 +83,8 @@ for k = 1:length(time)
     
     % After measurment steps
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % calculate K gain
+    K(:,k) = P_prior(:,:,k)*H_kf'*inv(H_kf*P_prior(:,:,k)*H_kf' + R);
     % calculate residual from measurment and estimate of state prior to
     % measurement
     e_meas(:,k) = y(:,k) - H_kf*x_hat_prior(:,k);    
