@@ -9,9 +9,9 @@ close all;
 
 % sim time parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dt = 0.1;
+dt = 1; % in order for state equations to work dt needs to be in units of [sec]
 t_start = 0;
-t_end = 1000;
+t_end = 2000;
 time = t_start:dt:t_end;
 
 % truth parameters
@@ -27,8 +27,8 @@ H = [1 0];
 
 % kalman filter parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Q = [(sigma_nu^2*dt + (1/3)*sigma_u^2*dt^3) -0.5*sigma_u^2*dt;
-    -0.5*sigma_u^2*dt sigma_u^2*dt]; % From slides, process noise covari. 
+Q = [(sigma_nu^2*dt + (1/3)*sigma_u^2*dt^3) -0.5*sigma_u^2*dt^2;
+    -0.5*sigma_u^2*dt^2 sigma_u^2*dt]; % From slides, process noise covari. 
 Gamma_kf = [dt 0; 0 0];
 R = sigma_S^2; % Measurment noise covariance
 Phi_kf = [1 -dt; 0 1]; 
