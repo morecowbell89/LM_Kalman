@@ -1,0 +1,9 @@
+function q3 = qmult(q1,q2)
+
+% This function performs quaternion multiplication
+qMat = [q1(4),  q1(3), -q1(2), q1(1);...
+        -q1(3), q1(4), q1(1), q1(2);...
+        q1(2), -q1(1), q1(4), q1(3);...
+        -q1(1), -q1(2), -q1(3), q1(4)];
+
+q3 = qMat*q2;
